@@ -81,17 +81,22 @@ class Sender {
     }
 
     async sendText(to :string, body :string) {
-        await this.client.sendText(this.chatId(to), body)
+        try {
+            await this.client.sendText(this.chatId(to), body)
+        } catch (error) {
+            console.log(error)
+            return error
+        }
     }
 
     async sendListMenu(to :string, title :string, subTitle :string, description :string, button :string, list :ListMenu) {
         await this.client.sendListMenu(this.chatId(to), title, subTitle, description, button, list as any)
             .then((result) => {
-                return result;
+                return result
             })
             .catch((error) => {
-                throw new Error(`Error when sending: ${error}`);
-            });
+                return `Error when sending: ${error}`
+            })
     }
 }
 

@@ -14,7 +14,15 @@ const status = (req :Request, res :Response) => {
     })
 }
 const send = async (req :Request, res :Response) => {
-    const {number, message} = req.body
+    let number :string
+    let message :string
+    if (req.method.toLowerCase() === 'get') {
+        number = req.params.message
+        message = req.params.message
+    } else {
+        number = req.body.message
+        message = req.body.message
+    }
     try {
         await sender.sendText(number, message)
         return res.status(200).json()
